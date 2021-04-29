@@ -1,5 +1,6 @@
 package com.example.boomsenderandroid
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -21,11 +22,16 @@ class MainActivity : AppCompatActivity() {
 
         val stringArray = mutableListOf<String>("Projector 1", "Projector 2", "TV 1", "TV 2", "Switcher 1", "Audio Processor 1")
 
+        binding.addDeviceButton.setOnClickListener {
+            val intent = Intent(this, DeviceActivity::class.java)
+            startActivity(intent)
+        }
         val adapter = ListViewAdapter(stringArray, this)
 
         adapter.onDeleteListItem = {
-            adapter.notifyItemRemoved(it)
             stringArray.removeAt(it)
+            adapter.notifyItemRemoved(it)
+            adapter.notifyItemRangeChanged(it, stringArray.count())
         }
 
         adapter.onEditListItem = {
